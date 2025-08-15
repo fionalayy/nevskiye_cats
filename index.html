@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Невские маскарадные | В добрые руки и на продажу — Дубна</title>
+  <meta name="description" content="Каталог котят породы Невская маскарадная: в добрые руки и на продажу. Забрать в г. Дубна, Московская область. Встроенный чат для связи." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0c10; --card:#10131a; --muted:#a3adbe; --text:#eef1f7; --brand:#8aa8ff; --accent:#8ef; --ok:#6ee7b7; --warn:#fbbf24; --bad:#ff6b6b; --radius:20px; --shadow:0 8px 30px rgba(0,0,0,.35)
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);line-height:1.5;overflow-x:hidden}
+
+    /* === Красивый фон === */
+    .bg{
+      position:fixed;inset:0;z-index:-2;pointer-events:none;
+      background:
+        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), 
+              url('images/bg.jpg') center/cover no-repeat;
+    }
+    .bg-blur{position:fixed;inset:0;z-index:-1;backdrop-filter: blur(40px)}
+    .paws{
+      position:fixed;inset:0;z-index:-1;opacity:.06; background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><g fill="%23ffffff"><circle cx="40" cy="60" r="16"/><circle cx="80" cy="40" r="14"/><circle cx="120" cy="60" r="16"/><circle cx="100" cy="100" r="26"/></g></svg>');
+      background-size:180px; background-repeat:repeat; filter:contrast(.9)
+    }
+
+    .container{max-width:1200px;margin:0 auto;padding:24px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+    .logo{display:flex;gap:12px;align-items:center}
+    .mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--brand),#b9c6ff);display:grid;place-items:center;color:#0b0c10;font-weight:900;box-shadow:var(--shadow)}
+    .title{font-weight:800;font-size:clamp(20px,2.6vw,30px)}
+
+    .topbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    input[type="search"], select{background:rgba(20, 25, 40, 0.9);border:1px solid rgba(124,156,255,0.6));color:var(--text);padding:10px 12px;border-radius:12px;outline:none}
+    input::placeholder{color:#c7cdda90}
+    .btn{appearance:none;border:0;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer}
+    .btn-primary{background:linear-gradient(135deg,var(--brand),#a9b8ff);color:#0b0c10;box-shadow:var(--shadow)}
+    .btn-ghost{background:rgba(255,255,255,.06);color:var(--text);border:1px solid rgba(255,255,255,.08)}
+
+    /* Tabs */
+    .tabs{display:flex;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);padding:6px;border-radius:14px;width:fit-content}
+    .tab{padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+    .tab.active{background:linear-gradient(135deg,var(--ok),#c7ffe8);color:#002b1e}
+
+    .notice{display:flex;gap:10px;align-items:center;background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:12px 14px;margin:12px 0}
+
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-top:12px}
+    .card{grid-column:span 12;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .15s ease}
+    .card:hover{transform:translateY(-4px)}
+    @media(min-width:640px){.card{grid-column:span 6}}
+    @media(min-width:980px){.card{grid-column:span 4}}
+    .thumb{position:relative;aspect-ratio:4/3;background:#0f1116}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .badge{position:absolute;left:12px;top:12px;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;border:1px solid rgba(255,255,255,.12);backdrop-filter: blur(4px)}
+    .available{background:linear-gradient(180deg, rgba(110,231,183,.9), rgba(110,231,183,.55));color:#073c28}
+    .reserved{background:linear-gradient(180deg, rgba(251,191,36,.9), rgba(251,191,36,.55));color:#3b2b00}
+    .adopted{background:linear-gradient(180deg, rgba(255,107,107,.9), rgba(255,107,107,.55));color:#4a0000}
+    .content{padding:14px 14px 16px}
+    .name{font-weight:800;font-size:18px;margin:2px 0}
+    .meta{color:var(--muted);font-size:13.5px}
+    .price{margin-top:8px;font-weight:900}
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);font-size:12px;border:1px solid rgba(255,255,255,.1)}
+
+    dialog{border:0;border-radius:22px;background:linear-gradient(180deg,#0f121a, #0e1118);color:var(--text);width:min(980px,96vw);padding:0;box-shadow:var(--shadow)}
+    dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter: blur(2px)}
+    .modal{display:grid;grid-template-columns:1.1fr .9fr}
+    .modal-left .hero{aspect-ratio:4/3;background:#0b0d12}
+    .thumbs{display:flex;gap:8px;padding:10px 14px;flex-wrap:wrap;background:rgba(255,255,255,.03);border-top:1px solid rgba(255,255,255,.08)}
+    .thumbs img{width:64px;height:64px;object-fit:cover;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,.1)}
+    .modal-right{padding:16px}
+    .modal-title{font-size:22px;font-weight:900;margin:6px 0}
+    .close-x{position:absolute;right:12px;top:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:6px 10px;cursor:pointer}
+    @media(max-width:860px){.modal{grid-template-columns:1fr}.modal-left .hero{border-top-left-radius:22px;border-top-right-radius:22px}}
+
+    footer{opacity:.8;text-align:center;padding:28px 0;font-size:13px}
+    a{color:#b6e7ff}
+
+.modal-left .hero img {
+  width: 100%;         /* подгоняем по ширине блока */
+  height: auto;        /* сохраняем пропорции */
+  max-height: 80vh;    /* не выше 80% высоты экрана */
+  object-fit: contain; /* масштабируем картинку полностью в блок, без обрезки */
+  border-radius: 12px;
+}
+
+.contact {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  align-items: flex-start; /* кнопки не поднимаются вверх */
+}
+
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="paws"></div>
+  <div class="bg-blur"></div>
+
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="mark">🐾</div>
+        <div class="title">Невские маскарадные — в добрые руки и на продажу</div>
+      </div>
+      <div class="topbar">
+        <div class="tabs" role="tablist">
+          <button class="tab active" id="tab-adoption" data-purpose="adoption" role="tab" aria-selected="true">В добрые руки</button>
+          <button class="tab" id="tab-sale" data-purpose="sale" role="tab" aria-selected="false">Купить</button>
+        </div>
+        <input id="search" type="search" placeholder="Поиск: имя, окрас..." />
+        <select id="sortBy">
+          <option value="dateDesc">Сначала новые</option>
+          <option value="dateAsc">Сначала старые</option>
+          <option value="priceAsc">Цена ↑</option>
+          <option value="priceDesc">Цена ↓</option>
+        </select>
+        <button class="btn btn-ghost" id="reset">Сброс</button>
+      </div>
+    </header>
+
+    <div class="notice">📍 Забрать кота или кошечку можно в <strong>г. Дубна, Московская область.</strong> Напишите в чат.</div>
+
+    <main class="grid" id="cards"></main>
+
+    <section id="howto" style="margin-top:28px;background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.08);padding:16px 18px;border-radius:16px">
+      <h2 style="margin:6px 0 8px">Как добавить/редактировать котят</h2>
+      <ol style="margin:0;padding-left:18px;color:var(--muted)">
+        <li>Редактируйте JSON‑блок <code>CAT_DATA</code> ниже. Все котята — порода «Невская маскарадная».</li>
+        <li>Фото кладите в папку <code>images/</code> рядом с <code>index.html</code> и указывайте путь: <code>"images/vasya.jpg"</code>. Можно URL.</li>
+        <li>Переключайте разделы вкладками «В добрые руки» (purpose: <code>adoption</code>) и «На продажу» (purpose: <code>sale</code>).</li>
+        <li>Подключите чат ниже: замените <code>YOUR_PROPERTY_ID</code> в скрипте Tawk.to на свой ID (инструкция в комментарии к коду).</li>
+      </ol>
+    </section>
+  </div>
+
+  <!-- Модальное окно -->
+  <dialog id="modal">
+    <div class="modal">
+      <div class="modal-left">
+        <button class="close-x" onclick="closeModal()">✕</button>
+        <div class="hero"><img id="modalHero" alt="Фото кота" loading="lazy"></div>
+        <div class="thumbs" id="modalThumbs"></div>
+      </div>
+      <div class="modal-right">
+        <div class="badge available" id="modalBadge">В наличии</div>
+        <div class="modal-title" id="modalName">Имя</div>
+        <div class="meta" id="modalMeta">Невская маскарадная • Возраст • Пол</div>
+        <div class="price" id="modalPrice"></div>
+        <div class="chips" id="modalChips"></div>
+        <div class="modal-desc" id="modalDesc"></div>
+        <div class="contact" id="modalContact"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ====== ДАННЫЕ: РЕДАКТИРУЙТЕ ЭТОТ JSON-БЛОК ====== -->
+  <script id="CAT_DATA" type="application/json">
+  {
+  "cats": [
+    {"id":"cat-001","name":"Мира","status":"available","purpose":"sale","price":15000,"age":"2 мес","sex":"female","breed":"Невская маскарадная","color":"Бело-серый","vaccinated":true,"":false,"description":"Ласковая и игривая.","images":["images/котенок1.jpg","images/котенок1.1.jpg","images/котенок1.2.jpg"],"dateAdded":"2025-08-10","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-002","name":"Барон","status":"available","purpose":"sale","price":15000,"age":"5 месяцев","sex":"male","breed":"Невская маскарадная","color":"Серебристый табби","vaccinated":true,"":true,"description":"Спокойный, любит детей.","images":["images/котик.jpg"],"dateAdded":"2025-08-09","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-003","name":"Соня","status":"available","purpose":"sale","price":15000,"age":"2 мес","sex":"female","breed":"Невская маскарадная","color":"Белая с серыми пятнами","vaccinated":false,"":false,"description":"","images":["images/котенок2.jpg","images/котенок2.1.jpg","images/котенок2.2.jpg"],"dateAdded":"2025-08-08","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-004","name":"Лорд","status":"available","purpose":"sale","price":12000,"age":"5 месяцев","sex":"male","breed":"Невская маскарадная","color":"Серебристый мрамор","vaccinated":true,"":true,"description":"Умный и ласковый.","images":["images/котик3.jpg"],"dateAdded":"2025-08-07","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-005","name":"Ника","status":"available","purpose":"sale","price":15000,"age":"5 мес","sex":"female","breed":"Невская маскарадная","color":"Бело-кремовый","vaccinated":true,"sterilized":false,"description":"Очень игривая.","images":["images/cat5.jpg"],"dateAdded":"2025-08-06","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-006","name":"Макс","status":"available","purpose":"sale","price":18000,"age":"5 месяцев","sex":"male","breed":"Невская маскарадная","color":"Серебристый полосатый","vaccinated":true,"":true,"description":"Добрый и ласковый.","images":["images/котик2.jpg"],"dateAdded":"2025-08-05","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-007","name":"Луна","status":"available","purpose":"sale","price":15000,"age":"4 мес","sex":"female","breed":"Невская маскарадная","color":"Белая с коричневым","vaccinated":true,"sterilized":false,"description":"Любит внимание.","images":["images/cat7.jpg"],"dateAdded":"2025-08-04","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-008","name":"Том","status":"available","purpose":"sale","price":20000,"age":"2 года","sex":"male","breed":"Невская маскарадная","color":"Серебристо-белый","vaccinated":true,"sterilized":true,"description":"Спокойный и умный.","images":["images/cat8.jpg"],"dateAdded":"2025-08-03","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-009","name":"Софи","status":"available","purpose":"sale","price":15000,"age":"3 мес","sex":"female","breed":"Невская маскарадная","color":"Бело-серый с пятнами","vaccinated":true,"sterilized":false,"description":"Очень ласковая.","images":["images/cat9.jpg"],"dateAdded":"2025-08-02","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-010","name":"Ричард","status":"available","purpose":"sale","price":22000,"age":"1 год","sex":"male","breed":"Невская маскарадная","color":"Серебристый мрамор","vaccinated":true,"sterilized":true,"description":"Спокойный, любит играть.","images":["images/cat10.jpg"],"dateAdded":"2025-08-01","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-011","name":"Белла","status":"available","purpose":"sale","price":15000,"age":"5 мес","sex":"female","breed":"Невская маскарадная","color":"Бело-кремовый","vaccinated":true,"sterilized":false,"description":"Активная и игривая.","images":["images/cat11.jpg"],"dateAdded":"2025-07-31","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-012","name":"Оскар","status":"available","purpose":"sale","price":25000,"age":"2 года","sex":"male","breed":"Невская маскарадная","color":"Серебристый с белым","vaccinated":true,"sterilized":true,"description":"Ласковый и умный.","images":["images/cat12.jpg"],"dateAdded":"2025-07-30","contact":{"telegram":"@nevskiye_domoy"}},
+    
+    {"id":"cat-013","name":"Белла","status":"available","purpose":"adoption","price":null,"age":"5 мес","sex":"female","breed":"Невская маскарадная","color":"Бело-кремовый","vaccinated":true,"sterilized":false,"description":"Активная и игривая.","images":["images/cat11.jpg"],"dateAdded":"2025-07-31","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-014","name":"Белла","status":"available","purpose":"adoption","price":null,"age":"5 мес","sex":"female","breed":"Невская маскарадная","color":"Бело-кремовый","vaccinated":true,"sterilized":false,"description":"Активная и игривая.","images":["images/cat11.jpg"],"dateAdded":"2025-07-31","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-015","name":"Белла","status":"available","purpose":"adoption","price":null,"age":"5 мес","sex":"female","breed":"Невская маскарадная","color":"Бело-кремовый","vaccinated":true,"sterilized":false,"description":"Активная и игривая.","images":["images/cat11.jpg"],"dateAdded":"2025-07-31","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-016","name":"Белла","status":"available","purpose":"adoption","price":null,"age":"5 мес","sex":"female","breed":"Невская маскарадная","color":"Бело-кремовый","vaccinated":true,"sterilized":false,"description":"Активная и игривая.","images":["images/cat11.jpg"],"dateAdded":"2025-07-31","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-017","name":"Белла","status":"available","purpose":"adoption","price":null,"age":"5 мес","sex":"female","breed":"Невская маскарадная","color":"Бело-кремовый","vaccinated":true,"sterilized":false,"description":"Активная и игривая.","images":["images/cat11.jpg"],"dateAdded":"2025-07-31","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-018","name":"Белла","status":"available","purpose":"adoption","price":null,"age":"5 мес","sex":"female","breed":"Невская маскарадная","color":"Бело-кремовый","vaccinated":true,"sterilized":false,"description":"Активная и игривая.","images":["images/cat11.jpg"],"dateAdded":"2025-07-31","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-019","name":"Белла","status":"available","purpose":"adoption","price":null,"age":"5 мес","sex":"female","breed":"Невская маскарадная","color":"Бело-кремовый","vaccinated":true,"sterilized":false,"description":"Активная и игривая.","images":["images/cat11.jpg"],"dateAdded":"2025-07-31","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-020","name":"Белла","status":"available","purpose":"adoption","price":null,"age":"5 мес","sex":"female","breed":"Невская маскарадная","color":"Бело-кремовый","vaccinated":true,"sterilized":false,"description":"Активная и игривая.","images":["images/cat11.jpg"],"dateAdded":"2025-07-31","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-021","name":"Белла","status":"available","purpose":"adoption","price":null,"age":"5 мес","sex":"female","breed":"Невская маскарадная","color":"Бело-кремовый","vaccinated":true,"sterilized":false,"description":"Активная и игривая.","images":["images/cat11.jpg"],"dateAdded":"2025-07-31","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-022","name":"Белла","status":"available","purpose":"adoption","price":null,"age":"5 мес","sex":"female","breed":"Невская маскарадная","color":"Бело-кремовый","vaccinated":true,"sterilized":false,"description":"Активная и игривая.","images":["images/cat11.jpg"],"dateAdded":"2025-07-31","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-023","name":"Белла","status":"available","purpose":"adoption","price":null,"age":"5 мес","sex":"female","breed":"Невская маскарадная","color":"Бело-кремовый","vaccinated":true,"sterilized":false,"description":"Активная и игривая.","images":["images/cat11.jpg"],"dateAdded":"2025-07-31","contact":{"telegram":"@nevskiye_domoy"}},
+    {"id":"cat-021","name":"Белла","status":"available","purpose":"adoption","price":null,"age":"5 мес","sex":"female","breed":"Невская маскарадная","color":"Бело-кремовый","vaccinated":true,"sterilized":false,"description":"Активная и игривая.","images":["images/cat11.jpg"],"dateAdded":"2025-07-31","contact":{"telegram":"@nevskiye_domoy"}}
+
+
+  ]
+  }
+  </script>
+  <!-- ====== КОНЕЦ БЛОКА ДАННЫХ ====== -->
+
+  <script>
+    const el = {
+      cards: document.getElementById('cards'),
+      search: document.getElementById('search'),
+      sortBy: document.getElementById('sortBy'),
+      reset: document.getElementById('reset'),
+      modal: document.getElementById('modal'),
+      modalHero: document.getElementById('modalHero'),
+      modalThumbs: document.getElementById('modalThumbs'),
+      modalName: document.getElementById('modalName'),
+      modalMeta: document.getElementById('modalMeta'),
+      modalPrice: document.getElementById('modalPrice'),
+      modalChips: document.getElementById('modalChips'),
+      modalDesc: document.getElementById('modalDesc'),
+      modalBadge: document.getElementById('modalBadge'),
+      modalContact: document.getElementById('modalContact'),
+      tabAdoption: document.getElementById('tab-adoption'),
+      tabSale: document.getElementById('tab-sale')
+    };
+
+    // Подстраховка: если главное фото не загрузилось — заглушка
+    el.modalHero?.addEventListener('error', ()=>{ el.modalHero.src = 'https://placekitten.com/800/600'; });
+
+    const rub = n => new Intl.NumberFormat('ru-RU',{style:'currency',currency:'RUB',maximumFractionDigits:0}).format(n);
+    const byDate = (a,b) => new Date(b.dateAdded) - new Date(a.dateAdded);
+    const html = (str) => { const t = document.createElement('template'); t.innerHTML = str.trim(); return t.content.firstChild; };
+
+    // Данные
+    let DATA = { cats: [] };
+    try { DATA = JSON.parse(document.getElementById('CAT_DATA').textContent) } catch(e) { console.error('JSON error', e); }
+
+    let state = { all: DATA.cats||[], filtered: [], q:'', sortBy:'dateDesc', purpose:'adoption' };
+
+    function applyFilters(){
+      const q = state.q.toLowerCase().trim();
+      let list = state.all.filter(c=> c.purpose===state.purpose);
+      if(q){ list = list.filter(c => [c.name,c.color,c.description].join(' ').toLowerCase().includes(q)); }
+      switch(state.sortBy){
+        case 'dateAsc': list.sort((a,b)=> new Date(a.dateAdded)-new Date(b.dateAdded)); break;
+        case 'priceAsc': list.sort((a,b)=> (a.price??Infinity) - (b.price??Infinity)); break;
+        case 'priceDesc': list.sort((a,b)=> (b.price??-Infinity) - (a.price??-Infinity)); break;
+        default: list.sort(byDate);
+      }
+      state.filtered = list;
+      renderCards();
+    }
+
+    function badgeClass(status){ return status==='adopted'?'adopted':status==='reserved'?'reserved':'available'; }
+
+    function renderCards(){
+      el.cards.innerHTML = '';
+      if(state.filtered.length===0){
+        el.cards.appendChild(html(`<div style="grid-column:span 12;text-align:center;opacity:.7;padding:40px">Пока пусто. Добавьте котят в JSON‑данные ниже.</div>`));
+        return;
+      }
+      state.filtered.forEach(cat=>{
+        const img = (cat.images&&cat.images[0])||'https://placekitten.com/600/450';
+        const priceStr = cat.purpose==='adoption' || cat.price==null ? 'В добрые руки' : rub(cat.price);
+        const node = html(`
+          <article class="card" data-id="${cat.id}">
+            <div class="thumb">
+              <img src="${img}" alt="${cat.name}" loading="lazy" onerror="this.onerror=null; this.src='https://placekitten.com/600/450'; console.warn('Нет изображения:', '${img}')" />
+              <span class="badge ${badgeClass(cat.status)}">${cat.status==='adopted'?'Пристроен':cat.status==='reserved'?'Забронирован':'В наличии'}</span>
+            </div>
+            <div class="content">
+              <div class="name">${cat.name}</div>
+              <div class="meta">Невская маскарадная • ${cat.age??''} • ${cat.sex==='male'?'кот':'кошка'}</div>
+              <div class="price">${priceStr}</div>
+              <div class="chips">
+                ${cat.color?`<span class="chip">${cat.color}</span>`:''}
+                ${cat.vaccinated?`<span class="chip">Привит</span>`:''}
+                ${cat.sterilized?`<span class="chip">Стерилизован(а)</span>`:''}
+                <span class="chip">Дубна, МО</span>
+              </div>
+              <div class="actions" style="display:flex;gap:10px;margin-top:12px">
+                <button class="btn btn-primary" data-open="${cat.id}">Подробнее</button>
+                ${cat.contact?.telegram?`<a class="btn btn-ghost" target="_blank" href="https://t.me/${cat.contact.telegram.replace('@','')}">Написать</a>`:''}
+              </div>
+            </div>
+          </article>`);
+        node.querySelector('[data-open]')?.addEventListener('click',()=>openModal(cat));
+        node.querySelector('.thumb')?.addEventListener('click',()=>openModal(cat));
+        el.cards.appendChild(node);
+      })
+    }
+
+    function openModal(cat){
+      const hero = (cat.images&&cat.images[0])||'';
+      el.modalHero.src = hero || 'https://placekitten.com/800/600';
+      el.modalHero.alt = cat.name;
+      el.modalThumbs.innerHTML = '';
+      (cat.images||[]).forEach(src=>{ const t = html(`<img src="${src}" alt="${cat.name}">`); t.addEventListener('click',()=>{ el.modalHero.src = src; }); el.modalThumbs.appendChild(t); });
+      el.modalName.textContent = cat.name;
+      el.modalMeta.textContent = `Невская маскарадная • ${cat.age??''} • ${cat.sex==='male'?'кот':'кошка'}`;
+      el.modalPrice.textContent = (cat.purpose==='adoption'||cat.price==null)?'В добрые руки':rub(cat.price);
+      el.modalBadge.className = `badge ${badgeClass(cat.status)}`;
+      el.modalBadge.textContent = cat.status==='adopted'?'Пристроен':cat.status==='reserved'?'Забронирован':'В наличии';
+      el.modalChips.innerHTML = `
+        ${cat.color?`<span class='chip'>${cat.color}</span>`:''}
+        ${cat.vaccinated?`<span class='chip'>Привит</span>`:''}
+        ${cat.sterilized?`<span class='chip'>Стерилизован(а)</span>`:''}
+        <span class='chip'>Дубна, МО</span>`;
+      el.modalDesc.textContent = cat.description||'';
+      el.modalContact.innerHTML = '';
+      if(cat.contact?.phone){ el.modalContact.appendChild(html(`<a class="btn btn-primary" href="tel:${cat.contact.phone.replace(/\s|\(|\)|-/g,'')}">Позвонить</a>`)); }
+      if(cat.contact?.telegram){ el.modalContact.appendChild(html(`<a class="btn btn-ghost" target="_blank" href="https://t.me/${cat.contact.telegram.replace('@','')}">Telegram</a>`)); }
+      el.modal.showModal();
+    }
+    function closeModal(){ el.modal.close(); }
+    window.closeModal = closeModal;
+    el.modal.addEventListener('click', (e) => {
+  // если клик был именно на фоне (backdrop), закрываем модалку
+  if (e.target === el.modal) {
+    closeModal();
+  }
+});
+
+    // Вкладки
+    function setTab(purpose){
+      state.purpose = purpose;
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      (purpose==='sale'?el.tabSale:el.tabAdoption).classList.add('active');
+      applyFilters();
+    }
+
+    el.tabAdoption.addEventListener('click',()=>setTab('adoption'));
+    el.tabSale.addEventListener('click',()=>setTab('sale'));
+
+    // Поиск/сортировка
+    el.search.addEventListener('input', e=>{ state.q = e.target.value; applyFilters(); });
+    el.sortBy.addEventListener('change', e=>{ state.sortBy = e.target.value; applyFilters(); });
+    el.reset.addEventListener('click', ()=>{ state.q=''; el.search.value=''; state.sortBy='dateDesc'; el.sortBy.value='dateDesc'; applyFilters(); });
+
+    // Инициализация: выбираем раздел из хэша (#sale/#adoption)
+    const hash = (location.hash||'').replace('#','');
+    if(hash==='sale') setTab('sale'); else setTab('adoption');
+
+  </script>
+
+  <!-- ================= ЧАТ (Tawk.to) =================
+    1) Зарегистрируйтесь на https://www.tawk.to → Add Property → получите PROPERTY_ID (пример: 66b7a1234abcd56789f0e123)
+    2) Замените YOUR_PROPERTY_ID ниже на ваш ID.
+    3) Обновите страницу — виджет чата появится справа внизу. Вы — агент, отвечаете из панели Tawk.to.
+  -->
+  <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    // Не забудьте заменить на свой ID:
+    (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/YOUR_PROPERTY_ID/DEFAULT';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+    })();
+
+    // Необязательная настройка имени оператора при ответе (будет видно гостю):
+    Tawk_API.onLoad = function(){
+      // Название компании/имя: отобразится в чате
+      Tawk_API.setAttributes({ name: 'Фиона — отвечает в чате' }, function(error){});
+    };
+  </script>
+
+  <footer>
+    © 2025 Невские маскарадные • Забрать: г. Дубна, Московская область • Связь через чат или Telegram: <a href="https://t.me/nevskiye_domoy" target="_blank">@nevskiye_domoy</a>
+  </footer>
+</body>
+</html>
